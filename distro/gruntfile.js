@@ -16,10 +16,9 @@ module.exports = function(grunt) {
           sizes: [
           {
             /* Change these */
-            width: '489px',
-            height: '389px',
-            quality: 100,
-            aspectRatio: false
+            /*width: '489px',
+            height: '389px', */
+            quality: 50
           }]
         },
 
@@ -40,7 +39,7 @@ module.exports = function(grunt) {
     clean: {
       dev: {
         src: ['images'],
-      },
+      }
     },
 
     /* Generate the images directory if it is missing */
@@ -48,16 +47,32 @@ module.exports = function(grunt) {
       dev: {
         options: {
           create: ['images']
-        },
+        }
       },
     },
 
-  });
+  imagemin: {
+    dev: {
+      files: [{
+        expand: true,
+        cwd: 'img_src/',
+        src: ['**/*.{png,jpg,gif}'],
+        dest: 'img/'
+      }]
+    }
+  }
+});
 
-  grunt.loadNpmTasks('grunt-responsive-images');
+/*  grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images']);
+  grunt.registerTask('responsive_images', ['clean', 'mkdir', 'responsive_images']); 
+  */
+
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+
+  grunt.registerTask('default', ['imagemin']);
+
 
 };
