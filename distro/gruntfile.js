@@ -16,9 +16,8 @@ module.exports = function(grunt) {
           sizes: [
           {
             /* Change these */
-            /*width: '489px',
-            height: '389px', */
-            quality: 50
+            width: '100px',
+            quality: 100
           }]
         },
 
@@ -27,10 +26,7 @@ module.exports = function(grunt) {
         the directory structure.
         */
         files: [{
-          expand: true,
-          src: ['*.{gif,jpg,png}'],
-          cwd: 'images_src/',
-          dest: 'images/'
+          'img/pizzeria.jpg': ['img_src/pizzeria.jpg']
         }]
       }
     },
@@ -56,21 +52,38 @@ module.exports = function(grunt) {
       files: [{
         expand: true,
         cwd: 'img_src/',
-        src: ['**/*.{png,jpg,gif}'],
+        src: ['pizzeria-100.{png,jpg,gif}'],
         dest: 'img/'
       }]
+    }
+  },
+
+
+  htmlmin: {                                     // Task
+    dist: {                                      // Target
+      options: {                                 // Target options
+        removeComments: true,
+        collapseWhitespace: true
+      },
+      files: {                                   // Dictionary of files
+        'index2.html': 'index.html',     // 'destination': 'source'
+      }
     }
   }
 });
 
-/*  grunt.loadNpmTasks('grunt-responsive-images');
+
+
+  grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.registerTask('responsive_images', ['clean', 'mkdir', 'responsive_images']); 
-  */
-
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
+
+  grunt.registerTask('res', ['responsive_images']);
+
+  grunt.registerTask('minify', ['htmlmin']);
 
   grunt.registerTask('default', ['imagemin']);
 
