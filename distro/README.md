@@ -16,8 +16,18 @@ To view the page optimized for smooth animation, click on Cam's Pizzeria. Two an
 ## Optimizations made
 
 ### Pageload
+Inlined javascript to load the web font used on the page rather than waiting for an outside link.
+
+Inlined css to avoid waiting for that to load.
+
+One image was way too large, and was being resized by brute force, so I re-sized the actual jpg to avoid having to download extra image data for no benefit.
+
+Generally optimized images.
 
 ### Animation
+
+Re-wrote loops to forcing synchronous layout that was occuring both in background pizza animation and in re-sizing of pizzas in our-menu.
+Set the parallax animation to fire from requestanimationframe, which in turn fires from scroll event. Previously the two were linked directly.
 
 ## Gruntfile
 
