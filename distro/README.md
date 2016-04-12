@@ -27,7 +27,7 @@ Generally optimized images.
 ### Animation
 
 Re-wrote loops to forcing synchronous layout that was occuring both in background pizza animation and in re-sizing of pizzas in our-menu.
-Set the parallax animation to fire from requestanimationframe, which in turn fires from scroll event. Previously the two were linked directly.
+Set the parallax animation to fire from requestanimationframe, which in turn fires from scroll event. Previously the two were linked directly. Replace querySelectorAll with getElementsByClassName in various sections. Moved pizzasDiv definition out of loop. Moved phase definition in parralax routine out of the write loop. Made number of parallax pizzas generated depend on viewport size, and moved a constant variable calculation out of loop. Also added some css to style.css to forced GPU to become active.
 
 ## Gruntfile
 

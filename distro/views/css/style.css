@@ -33,6 +33,11 @@ form {
   position: fixed;
   width: 256px;
   z-index: -1;
+  /** Added this to trigger GPU hardware acceleration*/
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .randomPizzaContainer {

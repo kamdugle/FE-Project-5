@@ -440,8 +440,10 @@ var resizePizzas = function(size) {
         console.log("bug in sizeSwitcher");
     }
 
-    var pizzas = document.querySelectorAll(".randomPizzaContainer");
+    //querySelectorAll replaced with getElementsByClassName
+    var pizzas = document.getElementsByClassName("randomPizzaContainer");
 
+    //updated code to reflect a percentage change
     for (var i = 0; i < pizzas.length; i++) {
       pizzas[i].style.width = newWidth + '%';
     }
@@ -459,8 +461,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+//moved pizzasDiv definition out of loop
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -491,16 +494,23 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
-  var items = document.querySelectorAll('.mover');
+  //replaced querySelectorAll with getElementsByClassName
+  //moved variable creations out of loops where possible
+  var items = document.getElementsByClassName('mover');
   var scrollTopDivided = document.body.scrollTop/1250;
   var basicLefts = [];
   for (var i = 0; i < items.length; i++) {
     basicLefts.push(items[i].basicLeft);
   }
+ 
+  //moved phase calculation out of write loop
+  var phases = []
+  for (var i = 0; i < 5; i++) {
+    phases.push(Math.sin(scrollTopDivided + i))
+  }
 
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(scrollTopDivided + (i % 5));
+    var phase = phases[i % 5];
     items[i].style.left = basicLefts[i] + 100 * phase + 'px';
   }
 
@@ -521,17 +531,35 @@ window.addEventListener('scroll', function() {
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
-  var s = 256;
-  for (var i = 0; i < 24; i++) {
+  //determines viewport
+  var width = window.innerWidth
+  || document.documentElement.clientWidth
+  || document.body.clientWidth;
+
+  var height = window.innerHeight
+  || document.documentElement.clientHeight
+  || document.body.clientHeight;
+
+  console.log(height);
+  //made pizza number dynamic based on screen size
+  var w = 256;
+  var h = 150;
+  var cols = Math.floor(width / w);
+  var rows = Math.floor(height / h);
+  var numPizzas = cols*rows;
+  //move #movingpizzas1 selection out of loop
+  var movingPizzas = document.getElementById("movingPizzas1");
+
+
+  for (var i = 0; i < numPizzas; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    elem.basicLeft = (i % cols) * w;
+    elem.style.top = (Math.floor(i / cols) * h) + 'px';
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
